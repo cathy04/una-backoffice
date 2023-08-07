@@ -112,7 +112,7 @@ function MotRecteur() {
                                         withAsterisk
                                         {...form.getInputProps('title')}
                                     />
-
+                                    <Text fz="sm" fw={700}>Mot du recteur</Text>
                                     <div className="w-full h-full min-h-full">
                                         <RichTextEditor editor={editor} >
                                             <RichTextEditor.Toolbar sticky stickyOffset={60}>

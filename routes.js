@@ -25,7 +25,10 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 import BusinessCenter from "@material-ui/icons/BusinessCenter";
-
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import CompareIcon from '@material-ui/icons/Compare';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -39,7 +42,7 @@ const dashboardRoutes = [
     path: "/slide",
     name: "Slide",
     rtlName: "",
-    icon: Dashboard,
+    icon: CompareIcon,
 
     layout: "/admin",
   },
@@ -71,7 +74,7 @@ const dashboardRoutes = [
     path: "/date",
     name: "Date",
     rtlName: "",
-    icon: Dashboard,
+    icon: CalendarTodayIcon,
 
     layout: "/admin",
   },
@@ -79,7 +82,7 @@ const dashboardRoutes = [
     path: "/institut",
     name: "Institut",
     rtlName: "",
-    icon: Dashboard,
+    icon: AccountBalanceIcon,
 
     layout: "/admin",
   },
@@ -95,7 +98,7 @@ const dashboardRoutes = [
     path: "/posts",
     name: "Posts",
     rtlName: "",
-    icon: Dashboard,
+    icon: PostAddIcon,
 
     layout: "/admin",
   },
