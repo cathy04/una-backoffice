@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@mantine/core": "^6.0.17",
+    "@mantine/dates": "^6.0.18",
     "@mantine/dropzone": "^6.0.17",
     "@mantine/form": "^6.0.17",
     "@mantine/hooks": "^6.0.17",
@@ -33,6 +34,7 @@
     "@zeit/next-sass": "1.0.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "dayjs": "^1.11.9",
     "history": "5.0.0",
     "next": "10.0.5",
     "next-compose-plugins": "2.2.1",
