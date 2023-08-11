@@ -22,11 +22,11 @@ import { notifications } from '@mantine/notifications';
 import { Notifications } from '@mantine/notifications';
 
 
-function Institut() {
+function VieEstudiantine() {
     const useStyles = makeStyles(styles);
     const classes = useStyles();
-    const [files, setFiles] = useState([]);
     const [editorContent, setEditorContent] = useState('');
+    const [files, setFiles] = useState([]);
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -39,6 +39,11 @@ function Institut() {
         ],
         content: editorContent,
     });
+
+    
+    React.useEffect(() => {
+        
+    }, []);
 
     const form = useForm({
         initialValues: {
@@ -66,16 +71,20 @@ function Institut() {
     });
 
     const submitForm = (data) => {
-        setEditorContent(editor.getHTML());
-        if (editorContent.length === 0) {
+        const editorContent = editor.getHTML(); // Obtenir le contenu actuel de l'éditeur
+        const strippedContent = editorContent.replace(/<\/?[^>]+(>|$)/g, '');
+        if (strippedContent.trim() === '') {
             notifications.show({
                 title: 'Pas de contenu',
                 autoClose: 2500,
-                message: "Vous ne pouvez pas ajouter le mot du recteur sans contenu.",
+                message: "Le contenu ne doit pas etre vide.",
                 color: 'red',
-            })
+            });
             return;
         }
+
+        setEditorContent(editorContent); 
+        
         const image = files.map((file, index) => {
             const imageUrl = URL.createObjectURL(file);
             return imageUrl
@@ -86,19 +95,71 @@ function Institut() {
             information: editorContent
         }
         console.log("data", data)
+        form.reset()
     };
 
     return (
         <>
-            <div className="px-9 mt-6 pb-40 h-screen overflow-auto">
+            <div className="px-9 mt-6 pb-40">
                 <div className="flex flex-col items-start w-full">
+                    <Title order={3} className="mb-8">
+                        VIE ESTIDIANTINE
+                    </Title>
                     <div className="font-medium text-gray-700 text-xl flex flex-row space-x-4 items-center justify-between h-full w-full mb-6">
-                        <div>Ajouter un institut</div>
+                        <div>Contenu</div>
+                        <div className="max-w-xs w-full">Information</div>
                     </div>
-                    <form onSubmit={form.onSubmit((values) => submitForm(values))}
-                        className="flex flex-row space-x-4 items-start h-full w-full">
-                        <div className="w-full">
-                            <div className="flex flex-col justify-between bg-white px-28 py-10 shadow-xl rounded-md">
+                    <form
+                        onSubmit={form.onSubmit((values) => submitForm(values))}
+                        className="flex flex-row space-x-4 items-start h-full w-full"
+                    >
+                        <div className="w-full h-full min-h-full">
+                            <RichTextEditor editor={editor} stickyOffset={0} style={{ minHeight: '400px', backgroundColor: "white" }} >
+                                <RichTextEditor.Toolbar sticky>
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Bold />
+                                        <RichTextEditor.Italic />
+                                        <RichTextEditor.Underline />
+                                        <RichTextEditor.Strikethrough />
+                                        <RichTextEditor.ClearFormatting />
+                                        <RichTextEditor.Highlight />
+                                        <RichTextEditor.Code />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.H1 />
+                                        <RichTextEditor.H2 />
+                                        <RichTextEditor.H3 />
+                                        <RichTextEditor.H4 />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Blockquote />
+                                        <RichTextEditor.Hr />
+                                        <RichTextEditor.BulletList />
+                                        <RichTextEditor.OrderedList />
+                                        <RichTextEditor.Subscript />
+                                        <RichTextEditor.Superscript />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Link />
+                                        <RichTextEditor.Unlink />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.AlignLeft />
+                                        <RichTextEditor.AlignCenter />
+                                        <RichTextEditor.AlignJustify />
+                                        <RichTextEditor.AlignRight />
+                                    </RichTextEditor.ControlsGroup>
+                                </RichTextEditor.Toolbar>
+
+                                <RichTextEditor.Content />
+                            </RichTextEditor>
+                        </div>
+                        <div className="max-w-xs w-full">
+                            <div className="flex flex-col justify-between bg-white p-6 shadow-lg rounded-md">
                                 <div className="space-y-5">
                                     <TextInput
                                         placeholder="Name"
@@ -110,54 +171,9 @@ function Institut() {
                                         placeholder="Description"
                                         label="Description"
                                         withAsterisk
+                                        minRows={4}
                                         {...form.getInputProps('description')}
                                     />
-                                    <Text fz="sm" fw={700}>Information</Text>
-                                    <div className="w-full h-full min-h-full">
-                                        <RichTextEditor editor={editor} >
-                                            <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Bold />
-                                                    <RichTextEditor.Italic />
-                                                    <RichTextEditor.Underline />
-                                                    <RichTextEditor.Strikethrough />
-                                                    <RichTextEditor.ClearFormatting />
-                                                    <RichTextEditor.Highlight />
-                                                    <RichTextEditor.Code />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.H1 />
-                                                    <RichTextEditor.H2 />
-                                                    <RichTextEditor.H3 />
-                                                    <RichTextEditor.H4 />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Blockquote />
-                                                    <RichTextEditor.Hr />
-                                                    <RichTextEditor.BulletList />
-                                                    <RichTextEditor.OrderedList />
-                                                    <RichTextEditor.Subscript />
-                                                    <RichTextEditor.Superscript />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Link />
-                                                    <RichTextEditor.Unlink />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.AlignLeft />
-                                                    <RichTextEditor.AlignCenter />
-                                                    <RichTextEditor.AlignJustify />
-                                                    <RichTextEditor.AlignRight />
-                                                </RichTextEditor.ControlsGroup>
-                                            </RichTextEditor.Toolbar>
-
-                                            <RichTextEditor.Content />
-                                        </RichTextEditor>
-                                    </div>
                                     <div className="mt-8">
                                         <Dropzone
                                             accept={IMAGE_MIME_TYPE}
@@ -175,7 +191,8 @@ function Institut() {
                                         </SimpleGrid>
                                     </div>
                                 </div>
-                                <div className="mt-5">
+                            </div>
+                            <div className="mt-5">
                                     <Button
                                         fullWidth
                                         // loading={savingDirector}
@@ -185,18 +202,15 @@ function Institut() {
                                         Enrégistrer
                                     </Button>
                                 </div>
-                            </div>
                         </div>
-
-                    </form >
+                    </form>
                 </div>
             </div>
             <Notifications />
-
         </>
     );
 }
 
-Institut.layout = Admin;
+VieEstudiantine.layout = Admin;
 
-export default Institut;
+export default VieEstudiantine;

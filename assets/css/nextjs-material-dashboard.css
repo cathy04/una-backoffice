@@ -550,3 +550,7 @@ footer ul li a:hover {
   position: absolute;
   background: rgba(0, 0, 0, 0.5);
 }
+
+div[class^="makeStyles-content-"] {
+  margin-top: 0px !important;
+}

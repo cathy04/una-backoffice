@@ -30,6 +30,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import { Title} from '@mantine/core';
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -46,7 +47,10 @@ function Dashboard() {
   const classes = useStyles();
   return (
     <div>
-      <GridContainer>
+      <Title order={3} className="mb-8">
+        DASHBOARD
+      </Title>
+      {/* <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
             <CardHeader color="warning" stats icon>
@@ -260,7 +264,7 @@ function Dashboard() {
             </CardBody>
           </Card>
         </GridItem>
-      </GridContainer>
+      </GridContainer> */}
     </div>
   );
 }

@@ -34,7 +34,7 @@ function MotRecteur() {
             Highlight,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
-        content: editorContent,
+        content: '',
     });
 
     const form = useForm({
@@ -63,16 +63,20 @@ function MotRecteur() {
     });
 
     const submitForm = (data) => {
-        setEditorContent(editor.getHTML());
-        if (editorContent.length === 0) {
+        const editorContent = editor.getHTML(); // Obtenir le contenu actuel de l'éditeur
+        const strippedContent = editorContent.replace(/<\/?[^>]+(>|$)/g, '');
+        if (strippedContent.trim() === '') {
             notifications.show({
                 title: 'Pas de contenu',
                 autoClose: 2500,
                 message: "Vous ne pouvez pas ajouter le mot du recteur sans contenu.",
                 color: 'red',
-            })
+            });
             return;
         }
+
+        setEditorContent(editorContent); 
+        
         const image = files.map((file, index) => {
             const imageUrl = URL.createObjectURL(file);
             return imageUrl
@@ -83,22 +87,71 @@ function MotRecteur() {
             speech: editorContent
         }
         console.log("data", data)
+        form.reset()
     };
 
     return (
         <>
-            <div className="px-9 mt-6 pb-40 h-screen overflow-auto">
+            <div className="px-9 mt-6 pb-40">
                 <div className="flex flex-col items-start w-full">
-                    {/* <Title order={3} className="mb-8">
-                        MOT DU RECTEUR
-                    </Title> */}
+                    <Title order={3} className="mb-8">
+                        MOT DU DIRECTEUR
+                    </Title>
                     <div className="font-medium text-gray-700 text-xl flex flex-row space-x-4 items-center justify-between h-full w-full mb-6">
                         <div>Ajouter une mot du recteur</div>
+                        <div className="max-w-xs w-full">Information</div>
                     </div>
-                    <form onSubmit={form.onSubmit((values) => submitForm(values))}
-                        className="flex flex-row space-x-4 items-start h-full w-full">
-                        <div className="w-full">
-                            <div className="flex flex-col justify-between bg-white px-28 py-10 shadow-xl rounded-md">
+                    <form
+                        onSubmit={form.onSubmit((values) => submitForm(values))}
+                        className="flex flex-row space-x-4 items-start h-full w-full"
+                    >
+                        <div className="w-full h-full min-h-full">
+                            <RichTextEditor editor={editor} stickyOffset={0} style={{ minHeight: '400px', backgroundColor: "white" }} >
+                                <RichTextEditor.Toolbar sticky>
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Bold />
+                                        <RichTextEditor.Italic />
+                                        <RichTextEditor.Underline />
+                                        <RichTextEditor.Strikethrough />
+                                        <RichTextEditor.ClearFormatting />
+                                        <RichTextEditor.Highlight />
+                                        <RichTextEditor.Code />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.H1 />
+                                        <RichTextEditor.H2 />
+                                        <RichTextEditor.H3 />
+                                        <RichTextEditor.H4 />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Blockquote />
+                                        <RichTextEditor.Hr />
+                                        <RichTextEditor.BulletList />
+                                        <RichTextEditor.OrderedList />
+                                        <RichTextEditor.Subscript />
+                                        <RichTextEditor.Superscript />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.Link />
+                                        <RichTextEditor.Unlink />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup>
+                                        <RichTextEditor.AlignLeft />
+                                        <RichTextEditor.AlignCenter />
+                                        <RichTextEditor.AlignJustify />
+                                        <RichTextEditor.AlignRight />
+                                    </RichTextEditor.ControlsGroup>
+                                </RichTextEditor.Toolbar>
+
+                                <RichTextEditor.Content />
+                            </RichTextEditor>
+                        </div>
+                        <div className="max-w-xs w-full">
+                            <div className="flex flex-col justify-between bg-white p-6 shadow-lg rounded-md">
                                 <div className="space-y-5">
                                     <TextInput
                                         placeholder="Full name"
@@ -112,52 +165,7 @@ function MotRecteur() {
                                         withAsterisk
                                         {...form.getInputProps('title')}
                                     />
-                                    <Text fz="sm" fw={700}>Mot du recteur</Text>
-                                    <div className="w-full h-full min-h-full">
-                                        <RichTextEditor editor={editor} >
-                                            <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Bold />
-                                                    <RichTextEditor.Italic />
-                                                    <RichTextEditor.Underline />
-                                                    <RichTextEditor.Strikethrough />
-                                                    <RichTextEditor.ClearFormatting />
-                                                    <RichTextEditor.Highlight />
-                                                    <RichTextEditor.Code />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.H1 />
-                                                    <RichTextEditor.H2 />
-                                                    <RichTextEditor.H3 />
-                                                    <RichTextEditor.H4 />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Blockquote />
-                                                    <RichTextEditor.Hr />
-                                                    <RichTextEditor.BulletList />
-                                                    <RichTextEditor.OrderedList />
-                                                    <RichTextEditor.Subscript />
-                                                    <RichTextEditor.Superscript />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.Link />
-                                                    <RichTextEditor.Unlink />
-                                                </RichTextEditor.ControlsGroup>
-
-                                                <RichTextEditor.ControlsGroup>
-                                                    <RichTextEditor.AlignLeft />
-                                                    <RichTextEditor.AlignCenter />
-                                                    <RichTextEditor.AlignJustify />
-                                                    <RichTextEditor.AlignRight />
-                                                </RichTextEditor.ControlsGroup>
-                                            </RichTextEditor.Toolbar>
-
-                                            <RichTextEditor.Content />
-                                        </RichTextEditor>
-                                    </div>
+                                    <Text fz="sm" fw={700}>Image</Text>
                                     <div className="mt-8">
                                         <Dropzone
                                             accept={IMAGE_MIME_TYPE}
@@ -175,24 +183,22 @@ function MotRecteur() {
                                         </SimpleGrid>
                                     </div>
                                 </div>
-                                <div className="mt-5">
-                                    <Button
-                                        fullWidth
-                                        // loading={savingDirector}
-                                        type="submit"
-                                        className=""
-                                    >
-                                        Enrégistrer
-                                    </Button>
-                                </div>
+                            </div>
+                            <div className="mt-5">
+                                <Button
+                                    fullWidth
+                                    // loading={savingDirector}
+                                    type="submit"
+                                    className=""
+                                >
+                                    Enrégistrer
+                                </Button>
                             </div>
                         </div>
-
-                    </form >
-                </div>
+                    </form>
+                </div>   
             </div>
             <Notifications />
-
         </>
     );
 }
